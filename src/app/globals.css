@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #FDFCF9;
+  --sf: #F6F3EB;
+  --sf-card: #FFFFFF;
+  --mid: #9DBFA8;
+  --hl: #D8D2C2;
+  --hl-light: #EBE6DA;
+  --hl-subtle: rgba(216, 210, 194, 0.45);
+  --ink: #17211B;
+  --s2: #4A544C;
+  --ac: #1F5A38;
+  --ac-hover: #17452b;
+  --sage: #DCE9DE;
+  --brass: #B08A3E;
+  --err: #A83E28;
+  --err-bg: #F3DDD6;
+  --lift: 0 4px 14px rgba(120, 105, 70, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --lift-card: 0 6px 18px rgba(120, 105, 70, 0.09), 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-source-sans), system-ui, -apple-system, sans-serif;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-source-serif), Georgia, serif;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--hl);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--mid);
+}
+
+/* Focus styles - refined for clean tactile feel without double-strokes */
+:focus-visible {
+  outline: 1.5px solid var(--ac);
+  outline-offset: 1px;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .no-print, header, aside, nav, .modal-backdrop, #toast, .print-hide {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .print-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+  }
+}
