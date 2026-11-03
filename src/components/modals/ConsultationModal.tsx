@@ -436,7 +436,7 @@ export default function ConsultationModal() {
                     <span>Follow-up Date</span>
                   </div>
                   {activeConsultation.fu && (
-                    <span className="text-[11px] font-semibold text-[var(--ac)]">
+                    <span className="text-[11px] font-medium text-[var(--ac)]">
                       {formatDate(activeConsultation.fu)}
                     </span>
                   )}
@@ -769,25 +769,26 @@ export default function ConsultationModal() {
                           </div>
 
                           {/* Row 2: Dosage Schedule Fields - Recessed Tray with Crisp White Inputs */}
-                          <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 p-1.5 rounded-xl bg-[var(--sf)]/80 border border-[var(--hl)]/50">
+                          <div className="flex flex-wrap sm:flex-nowrap items-center gap-1.5 p-1.5 rounded-xl bg-[var(--sf)]/80 border border-[var(--hl)]/50">
                             {item.type === 'medicine' ? (
                               <>
                                 <input
                                   type="text"
-                                  placeholder="Dose (e.g. 1 tab, 15ml)"
+                                  placeholder="Dose (e.g. 1 tab)"
                                   value={item.dq || ''}
                                   onChange={(e) =>
                                     updateItemAndAutoCalculate(idx, 'dq', e.target.value)
                                   }
-                                  className="px-2.5 py-1.5 text-xs bg-white border border-[var(--hl)] rounded-lg text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-2xs focus:outline-none focus:ring-1 focus:ring-[var(--ac)] focus:border-[var(--ac)] transition-all"
+                                  className="w-full sm:w-28 shrink-0 px-2.5 py-1.5 text-xs bg-white border border-[var(--hl)] rounded-lg text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-2xs focus:outline-none focus:ring-1 focus:ring-[var(--ac)] focus:border-[var(--ac)] transition-all"
+                                  title="Dosage quantity"
                                 />
-                                <div className="relative">
+                                <div className="relative w-full sm:w-34 shrink-0">
                                   <select
                                     value={item.fr || ''}
                                     onChange={(e) =>
                                       updateItemAndAutoCalculate(idx, 'fr', e.target.value)
                                     }
-                                    className="w-full px-2.5 py-1.5 text-xs bg-white border border-[var(--hl)] rounded-lg text-[var(--ink)] shadow-2xs focus:outline-none focus:ring-1 focus:ring-[var(--ac)] focus:border-[var(--ac)] transition-all cursor-pointer appearance-none pr-5"
+                                    className="w-full px-2.5 py-1.5 text-xs bg-white border border-[var(--hl)] rounded-lg text-[var(--ink)] shadow-2xs focus:outline-none focus:ring-1 focus:ring-[var(--ac)] focus:border-[var(--ac)] transition-all cursor-pointer appearance-none pr-6"
                                   >
                                     {FREQUENCY_OPTIONS.map((f, i) => (
                                       <option key={f} value={i === 0 ? '' : f}>
@@ -795,15 +796,15 @@ export default function ConsultationModal() {
                                       </option>
                                     ))}
                                   </select>
-                                  <ChevronDown className="w-3 h-3 text-[var(--s2)]/60 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                  <ChevronDown className="w-3 h-3 text-[var(--s2)]/60 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
                                 </div>
-                                <div className="relative">
+                                <div className="relative w-full sm:w-34 shrink-0">
                                   <select
                                     value={item.tm || ''}
                                     onChange={(e) =>
                                       updateItemAndAutoCalculate(idx, 'tm', e.target.value)
                                     }
-                                    className="w-full px-2.5 py-1.5 text-xs bg-white border border-[var(--hl)] rounded-lg text-[var(--ink)] shadow-2xs focus:outline-none focus:ring-1 focus:ring-[var(--ac)] focus:border-[var(--ac)] transition-all cursor-pointer appearance-none pr-5"
+                                    className="w-full px-2.5 py-1.5 text-xs bg-white border border-[var(--hl)] rounded-lg text-[var(--ink)] shadow-2xs focus:outline-none focus:ring-1 focus:ring-[var(--ac)] focus:border-[var(--ac)] transition-all cursor-pointer appearance-none pr-6"
                                   >
                                     {TIMING_OPTIONS.map((tm, i) => (
                                       <option key={tm} value={i === 0 ? '' : tm}>
@@ -811,31 +812,40 @@ export default function ConsultationModal() {
                                       </option>
                                     ))}
                                   </select>
-                                  <ChevronDown className="w-3 h-3 text-[var(--s2)]/60 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                  <ChevronDown className="w-3 h-3 text-[var(--s2)]/60 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
                                 </div>
                               </>
                             ) : (
-                              <div className="col-span-3 text-xs text-[var(--s2)] font-medium italic flex items-center px-2.5">
-                                Therapy session protocol
+                              <div className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--sage)]/50 text-[var(--ac)] text-xs font-semibold">
+                                <Activity className="w-3.5 h-3.5" />
+                                <span>Therapy Protocol</span>
                               </div>
                             )}
 
                             <input
                               type="number"
                               min="1"
-                              placeholder="Days"
+                              placeholder={item.type === 'medicine' ? 'Days' : 'Sessions / Days'}
                               value={item.days || ''}
                               onChange={(e) =>
                                 updateItemAndAutoCalculate(idx, 'days', e.target.value)
                               }
-                              className="px-2.5 py-1.5 text-xs bg-white border border-[var(--hl)] rounded-lg text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-2xs focus:outline-none focus:ring-1 focus:ring-[var(--ac)] focus:border-[var(--ac)] transition-all"
+                              className={`px-2.5 py-1.5 text-xs bg-white border border-[var(--hl)] rounded-lg text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-2xs focus:outline-none focus:ring-1 focus:ring-[var(--ac)] focus:border-[var(--ac)] transition-all text-center shrink-0 ${
+                                item.type === 'medicine' ? 'w-full sm:w-20' : 'w-full sm:w-32'
+                              }`}
+                              title={item.type === 'medicine' ? 'Duration in days' : 'Session count or protocol days'}
                             />
+
                             <input
                               type="text"
-                              placeholder="Instructions (e.g. with warm water)..."
+                              placeholder={
+                                item.type === 'medicine'
+                                  ? 'Instructions (e.g. with warm water / after meals)...'
+                                  : 'Session schedule & notes (e.g. Alternate mornings, warm oil stream)...'
+                              }
                               value={item.nt || ''}
                               onChange={(e) => updateItemAndAutoCalculate(idx, 'nt', e.target.value)}
-                              className="px-2.5 py-1.5 text-xs bg-white border border-[var(--hl)] rounded-lg text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-2xs focus:outline-none focus:ring-1 focus:ring-[var(--ac)] focus:border-[var(--ac)] transition-all col-span-2 sm:col-span-1"
+                              className="flex-1 min-w-[200px] px-3 py-1.5 text-xs bg-white border border-[var(--hl)] rounded-lg text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-2xs focus:outline-none focus:ring-1 focus:ring-[var(--ac)] focus:border-[var(--ac)] transition-all"
                             />
                           </div>
                         </div>
