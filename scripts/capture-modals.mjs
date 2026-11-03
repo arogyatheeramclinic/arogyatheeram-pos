@@ -26,7 +26,7 @@ async function run() {
   console.log('Capturing: 00-auth-modal.png');
   await page.screenshot({ path: path.join(SCREENSHOT_DIR, '00-auth-modal.png') });
 
-  // Log in with PIN 1234
+  // Log in as Doctor (PIN 1234)
   console.log('Logging in as Doctor (PIN 1234)...');
   const pinInput = await page.$('input[type="password"]');
   if (pinInput) {
@@ -92,6 +92,8 @@ async function run() {
     await sleep(600);
     await page.keyboard.press('Enter');
     await sleep(400);
+    await page.click('h3');
+    await sleep(300);
   }
   await page.screenshot({ path: path.join(SCREENSHOT_DIR, '02-billing-modal.png') });
   await clickButtonWithText('Cancel');
@@ -99,15 +101,13 @@ async function run() {
 
   // 3. Reception -> Appointments -> Book New Modal
   console.log('Capturing: 03-appointment-modal.png');
-  await clickButtonWithText('Appointments');
-  await sleep(600);
   await clickButtonWithText('+ Book New');
   await sleep(600);
   await page.screenshot({ path: path.join(SCREENSHOT_DIR, '03-appointment-modal.png') });
   await clickButtonWithText('Cancel');
   await sleep(600);
 
-  // 4. Reception -> Unpaid Balances -> Settle Modal
+  // 4. Reception -> Settle Balance Modal
   console.log('Capturing: 04-settle-balance-modal.png');
   await clickButtonWithText('Unpaid Balances');
   await sleep(600);
@@ -141,6 +141,8 @@ async function run() {
       await sleep(500);
       await page.keyboard.press('Enter');
       await sleep(400);
+      await page.click('h2, [role="dialog"]');
+      await sleep(300);
     }
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, '05-consultation-modal.png') });
 
@@ -156,51 +158,54 @@ async function run() {
 
     // Close Consultation Modal
     await clickButtonWithText('Close (Esc)');
-    await sleep(700);
+    await sleep(600);
   }
 
-  // 6. Medicines & Stock Tab Modals
+  // 6. Inventory -> Receive Stock Modal
   console.log('Capturing Inventory modals...');
   await switchTab('Medicines & Stock');
   await sleep(800);
 
-  // 6a. Receive Stock Batch
   console.log('Capturing: 07-receive-stock-modal.png');
-  await clickButtonWithText('Receive Stock Batch');
-  await sleep(700);
+  await clickButtonWithText('Receive Stock');
+  await sleep(600);
   await page.screenshot({ path: path.join(SCREENSHOT_DIR, '07-receive-stock-modal.png') });
   await clickButtonWithText('Cancel');
   await sleep(600);
 
-  // 6b. New Item Modal
+  // 7. Inventory -> Add New Item Modal
   console.log('Capturing: 08-item-modal.png');
-  await clickButtonWithText('New Item');
-  await sleep(700);
+  await clickButtonWithText('Add Item');
+  await sleep(600);
   await page.screenshot({ path: path.join(SCREENSHOT_DIR, '08-item-modal.png') });
   await clickButtonWithText('Cancel');
   await sleep(600);
 
-  // 6c. Adjust Stock Modal
+  // 8. Inventory -> Adjust Stock Modal
   console.log('Capturing: 09-stock-adjust-modal.png');
-  await clickButtonWithText('Adjust');
-  await sleep(700);
-  await page.screenshot({ path: path.join(SCREENSHOT_DIR, '09-stock-adjust-modal.png') });
-  await clickButtonWithText('Cancel');
-  await sleep(600);
+  const foundAdjust = await clickButtonWithText('Adjust');
+  if (foundAdjust) {
+    await sleep(600);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '09-stock-adjust-modal.png') });
+    await clickButtonWithText('Cancel');
+    await sleep(600);
+  }
 
-  // 6d. Edit Item Modal
+  // 9. Inventory -> Edit Item Modal
   console.log('Capturing: 10-item-edit-modal.png');
-  await clickButtonWithText('Edit');
-  await sleep(700);
-  await page.screenshot({ path: path.join(SCREENSHOT_DIR, '10-item-edit-modal.png') });
-  await clickButtonWithText('Cancel');
-  await sleep(600);
+  const foundEdit = await clickButtonWithText('Edit');
+  if (foundEdit) {
+    await sleep(600);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '10-item-edit-modal.png') });
+    await clickButtonWithText('Cancel');
+    await sleep(600);
+  }
 
   console.log('All modals captured successfully!');
   await browser.close();
 }
 
 run().catch((err) => {
-  console.error('Error during capture:', err);
+  console.error('Error running modal capture:', err);
   process.exit(1);
 });
