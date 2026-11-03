@@ -167,108 +167,108 @@ export default function ReceptionTab() {
   };
 
   return (
-    <div className=\"space-y-5\">
+    <div className="space-y-5">
       {/* Top Situational Awareness Bar & Action Shortcuts */}
-      <div className=\"p-3 sm:p-4 rounded-xl bg-[var(--sf-card)] border border-[var(--hl)]/40 shadow-xs flex flex-wrap items-center justify-between gap-3\">
+      <div className="p-3 sm:p-4 rounded-xl bg-[var(--sf-card)] border border-[var(--hl)]/40 shadow-xs flex flex-wrap items-center justify-between gap-3">
         {/* Metric Counter Pills - Clean borderless chips */}
-        <div className=\"flex flex-wrap items-center gap-2\">
-          <div className=\"flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--sf)]/80 text-xs font-medium text-[var(--ink)]\">
-            <span className=\"w-2 h-2 rounded-full bg-[var(--ac)]\" />
-            <span className=\"font-bold\">{waitingVisits.length}</span>
-            <span className=\"text-[var(--s2)]\">In Waiting Room</span>
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--sf)]/80 text-xs font-medium text-[var(--ink)]">
+            <span className="w-2 h-2 rounded-full bg-[var(--ac)]" />
+            <span className="font-bold">{waitingVisits.length}</span>
+            <span className="text-[var(--s2)]">In Waiting Room</span>
           </div>
 
-          <div className=\"flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--sf)]/80 text-xs font-medium text-[var(--ink)]\">
-            <span className=\"w-2 h-2 rounded-full bg-[var(--brass)]\" />
-            <span className=\"font-bold\">{readyPrescriptions.length}</span>
-            <span className=\"text-[var(--s2)]\">Ready for Billing</span>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--sf)]/80 text-xs font-medium text-[var(--ink)]">
+            <span className="w-2 h-2 rounded-full bg-[var(--brass)]" />
+            <span className="font-bold">{readyPrescriptions.length}</span>
+            <span className="text-[var(--s2)]">Ready for Billing</span>
           </div>
 
-          <div className=\"flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--sf)]/80 text-xs font-medium text-[var(--ink)]\">
-            <span className=\"w-2 h-2 rounded-full bg-blue-600\" />
-            <span className=\"font-bold\">{todayAppointments.length}</span>
-            <span className=\"text-[var(--s2)]\">Appointments Today</span>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--sf)]/80 text-xs font-medium text-[var(--ink)]">
+            <span className="w-2 h-2 rounded-full bg-blue-600" />
+            <span className="font-bold">{todayAppointments.length}</span>
+            <span className="text-[var(--s2)]">Appointments Today</span>
           </div>
 
           {totalUnpaidAmount > 0 && (
-            <div className=\"flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--err-bg)] text-xs font-medium text-[var(--err)]\">
-              <span className=\"font-bold\">{formatMoney(totalUnpaidAmount)}</span>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--err-bg)] text-xs font-medium text-[var(--err)]">
+              <span className="font-bold">{formatMoney(totalUnpaidAmount)}</span>
               <span>Unpaid Balances</span>
             </div>
           )}
         </div>
 
         {/* Primary Action Buttons */}
-        <div className=\"flex items-center gap-2.5\">
+        <div className="flex items-center gap-2.5">
           <button
-            type=\"button\"
+            type="button"
             onClick={() => setIsRegisterModalOpen(true)}
-            className=\"flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[var(--ac)] text-white text-xs font-semibold hover:bg-[var(--ac-hover)] transition-colors shadow-xs\"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[var(--ac)] text-white text-xs font-semibold hover:bg-[var(--ac-hover)] transition-colors shadow-xs"
           >
-            <UserPlus className=\"w-4 h-4\" />
+            <UserPlus className="w-4 h-4" />
             <span>Register New Patient</span>
           </button>
 
           <button
-            type=\"button\"
+            type="button"
             onClick={() => startBillingSession(null, 'PW')}
-            className=\"flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[var(--sf)]/80 text-[var(--ink)] text-xs font-semibold hover:bg-[var(--sage)] transition-colors shadow-xs\"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[var(--sf)]/80 text-[var(--ink)] text-xs font-semibold hover:bg-[var(--sage)] transition-colors shadow-xs"
           >
-            <ShoppingBag className=\"w-4 h-4 text-[var(--ac)]\" />
+            <ShoppingBag className="w-4 h-4 text-[var(--ac)]" />
             <span>Walk-in Direct Sale</span>
           </button>
         </div>
       </div>
 
       {/* Main 2-Column Operational Grid */}
-      <div className=\"grid grid-cols-1 lg:grid-cols-2 gap-5 items-start\">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
         {/* Column 1: Intake Search & Waiting Room Queue */}
-        <div className=\"space-y-5\">
+        <div className="space-y-5">
           {/* Patient Quick Check-In Card */}
-          <div className=\"p-4 sm:p-5 rounded-xl bg-[var(--sf-card)] border border-[var(--hl)]/40 shadow-xs\">
-            <div className=\"flex items-center justify-between pb-3 border-b border-[var(--hl)]/40\">
-              <h3 className=\"text-sm sm:text-base font-semibold font-serif text-[var(--ink)]\">
+          <div className="p-4 sm:p-5 rounded-xl bg-[var(--sf-card)] border border-[var(--hl)]/40 shadow-xs">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--hl)]/40">
+              <h3 className="text-sm sm:text-base font-semibold font-serif text-[var(--ink)]">
                 Patient Search & Check-In
               </h3>
-              <label className=\"flex items-center gap-1.5 text-xs text-[var(--err)] font-medium cursor-pointer\">
+              <label className="flex items-center gap-1.5 text-xs text-[var(--err)] font-medium cursor-pointer">
                 <input
-                  type=\"checkbox\"
+                  type="checkbox"
                   checked={isUrgentSearchCheckin}
                   onChange={(e) => setIsUrgentSearchCheckin(e.target.checked)}
-                  className=\"rounded border-[var(--hl)] text-[var(--err)] focus:ring-[var(--err)]\"
+                  className="rounded border-[var(--hl)] text-[var(--err)] focus:ring-[var(--err)]"
                 />
                 <span>High Priority Check-In</span>
               </label>
             </div>
 
-            <div className=\"mt-3\">
-              <div className=\"relative\">
-                <Search className=\"w-4 h-4 text-[var(--s2)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none\" />
+            <div className="mt-3">
+              <div className="relative">
+                <Search className="w-4 h-4 text-[var(--s2)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
-                  type=\"text\"
+                  type="text"
                   value={patientSearch}
                   onChange={(e) => setPatientSearch(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === 'Escape') setPatientSearch('');
                   }}
-                  placeholder=\"Search registered patient by name or phone...\"
-                  className=\"w-full pl-9 pr-3 py-2.5 text-xs sm:text-sm rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all\"
+                  placeholder="Search registered patient by name or phone..."
+                  className="w-full pl-9 pr-3 py-2.5 text-xs sm:text-sm rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all"
                 />
               </div>
 
               {/* Autocomplete Dropdown Search Results */}
               {cleanQuery.length >= 2 && (
-                <div className=\"mt-2 divide-y divide-[var(--hl)]/60 border border-[var(--hl)] rounded-lg bg-white overflow-hidden shadow-sm\">
+                <div className="mt-2 divide-y divide-[var(--hl)]/60 border border-[var(--hl)] rounded-lg bg-white overflow-hidden shadow-sm">
                   {matchedPatients.length === 0 ? (
-                    <div className=\"p-3 text-xs text-[var(--s2)] flex items-center justify-between\">
-                      <span>No existing record found for \"{patientSearch}\".</span>
+                    <div className="p-3 text-xs text-[var(--s2)] flex items-center justify-between">
+                      <span>No existing record found for "{patientSearch}".</span>
                       <button
-                        type=\"button\"
+                        type="button"
                         onClick={() => {
                           setName(patientSearch);
                           setIsRegisterModalOpen(true);
                         }}
-                        className=\"text-[var(--ac)] font-semibold hover:underline\"
+                        className="text-[var(--ac)] font-semibold hover:underline"
                       >
                         Register Patient
                       </button>
@@ -282,27 +282,27 @@ export default function ReceptionTab() {
                       return (
                         <div
                           key={p.id}
-                          className=\"flex items-center justify-between p-2.5 hover:bg-[var(--sf)] transition-colors text-xs\"
+                          className="flex items-center justify-between p-2.5 hover:bg-[var(--sf)] transition-colors text-xs"
                         >
                           <div>
-                            <span className=\"font-semibold text-[var(--ink)]\">{p.name}</span>
-                            <span className=\"text-[var(--s2)] ml-2\">
+                            <span className="font-semibold text-[var(--ink)]">{p.name}</span>
+                            <span className="text-[var(--s2)] ml-2">
                               {p.phone} · {[p.age ? `${p.age} yrs` : '', p.sex].filter(Boolean).join(', ')}
                             </span>
                             {lastVisit && (
-                              <div className=\"text-[11px] text-[var(--s2)] mt-0.5\">
+                              <div className="text-[11px] text-[var(--s2)] mt-0.5">
                                 Last visit: {formatDate(lastVisit.t)}
                               </div>
                             )}
                           </div>
                           <button
-                            type=\"button\"
+                            type="button"
                             onClick={() => {
                               checkInPatient(p.id, isUrgentSearchCheckin);
                               setPatientSearch('');
                               setIsUrgentSearchCheckin(false);
                             }}
-                            className=\"px-3 py-1.5 rounded-md bg-[var(--ac)] text-white text-xs font-semibold hover:bg-[var(--ac-hover)] transition-colors\"
+                            className="px-3 py-1.5 rounded-md bg-[var(--ac)] text-white text-xs font-semibold hover:bg-[var(--ac-hover)] transition-colors"
                           >
                             Check In
                           </button>
@@ -316,22 +316,22 @@ export default function ReceptionTab() {
           </div>
 
           {/* Live Waiting Room Queue Card */}
-          <div className=\"p-4 sm:p-5 rounded-xl bg-[var(--sf-card)] border border-[var(--hl)]/40 shadow-xs\">
-            <div className=\"flex items-center justify-between pb-3 border-b border-[var(--hl)]/40\">
-              <div className=\"flex items-center gap-2\">
-                <Clock className=\"w-4 h-4 text-[var(--ac)]\" />
-                <h3 className=\"text-sm sm:text-base font-semibold font-serif text-[var(--ink)]\">
+          <div className="p-4 sm:p-5 rounded-xl bg-[var(--sf-card)] border border-[var(--hl)]/40 shadow-xs">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--hl)]/40">
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[var(--ac)]" />
+                <h3 className="text-sm sm:text-base font-semibold font-serif text-[var(--ink)]">
                   Live Waiting Room Queue
                 </h3>
               </div>
-              <span className=\"text-xs px-2.5 py-0.5 rounded-full bg-[var(--sage)]/70 text-[var(--ac)] font-bold\">
+              <span className="text-xs px-2.5 py-0.5 rounded-full bg-[var(--sage)]/70 text-[var(--ac)] font-bold">
                 {waitingVisits.length} in clinic
               </span>
             </div>
 
-            <div className=\"mt-3 divide-y divide-[var(--hl)]/30 max-h-[460px] overflow-y-auto\">
+            <div className="mt-3 divide-y divide-[var(--hl)]/30 max-h-[460px] overflow-y-auto">
               {waitingVisits.length === 0 ? (
-                <div className=\"p-8 text-center text-xs sm:text-sm text-[var(--s2)]\">
+                <div className="p-8 text-center text-xs sm:text-sm text-[var(--s2)]">
                   Waiting room is currently empty.
                 </div>
               ) : (
@@ -343,9 +343,9 @@ export default function ReceptionTab() {
                   return (
                     <div
                       key={visit.id}
-                      className=\"py-3 flex items-center justify-between gap-3 text-xs sm:text-sm hover:bg-[var(--sf)]/20 px-1 rounded transition-colors\"
+                      className="py-3 flex items-center justify-between gap-3 text-xs sm:text-sm hover:bg-[var(--sf)]/20 px-1 rounded transition-colors"
                     >
-                      <div className=\"flex items-start gap-3\">
+                      <div className="flex items-start gap-3">
                         {/* High-Visibility Token Badge */}
                         <div
                           className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 border ${
@@ -360,21 +360,21 @@ export default function ReceptionTab() {
                         </div>
 
                         <div>
-                          <div className=\"flex items-center gap-2 flex-wrap\">
-                            <span className=\"font-bold text-[var(--ink)]\">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-bold text-[var(--ink)]">
                               {patient?.name || 'Patient'}
                             </span>
                             {isUrgent && (
-                              <span className=\"text-[10px] px-1.5 py-0.5 rounded bg-[var(--err-bg)] text-[var(--err)] font-bold flex items-center gap-1\">
-                                <AlertTriangle className=\"w-3 h-3\" />
+                              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--err-bg)] text-[var(--err)] font-bold flex items-center gap-1">
+                                <AlertTriangle className="w-3 h-3" />
                                 High Priority
                               </span>
                             )}
                           </div>
-                          <div className=\"text-xs text-[var(--s2)] mt-0.5\">
+                          <div className="text-xs text-[var(--s2)] mt-0.5">
                             {isWithDoctor ? (
-                              <span className=\"text-[var(--ac)] font-semibold flex items-center gap-1.5\">
-                                <span className=\"w-2 h-2 rounded-full bg-[var(--ac)] animate-pulse\" />
+                              <span className="text-[var(--ac)] font-semibold flex items-center gap-1.5">
+                                <span className="w-2 h-2 rounded-full bg-[var(--ac)] animate-pulse" />
                                 In consultation with Doctor
                               </span>
                             ) : (
@@ -385,9 +385,9 @@ export default function ReceptionTab() {
                       </div>
 
                       {!isWithDoctor && (
-                        <div className=\"flex items-center gap-1.5 shrink-0\">
+                        <div className="flex items-center gap-1.5 shrink-0">
                           <button
-                            type=\"button\"
+                            type="button"
                             onClick={() => toggleVisitUrgent(visit.id)}
                             className={`px-2.5 py-1 text-xs rounded-md border transition-colors ${
                               isUrgent
@@ -398,9 +398,9 @@ export default function ReceptionTab() {
                             {isUrgent ? 'Set as Normal' : 'Move to Top'}
                           </button>
                           <button
-                            type=\"button\"
+                            type="button"
                             onClick={() => setCancelVisitId(visit.id)}
-                            className=\"px-2 py-1 text-xs rounded-md border border-[var(--hl)]/30 bg-white text-[var(--s2)] hover:text-[var(--err)] hover:border-[var(--err)]/40 transition-colors\"
+                            className="px-2 py-1 text-xs rounded-md border border-[var(--hl)]/30 bg-white text-[var(--s2)] hover:text-[var(--err)] hover:border-[var(--err)]/40 transition-colors"
                           >
                             Cancel
                           </button>
@@ -415,24 +415,24 @@ export default function ReceptionTab() {
         </div>
 
         {/* Column 2: Billing Checkout & Appointments / Balances */}
-        <div className=\"space-y-5\">
+        <div className="space-y-5">
           {/* Card A: Prescriptions Ready for Billing */}
-          <div className=\"p-4 sm:p-5 rounded-xl bg-[var(--sf-card)] border border-[var(--hl)]/40 shadow-xs\">
-            <div className=\"flex items-center justify-between pb-3 border-b border-[var(--hl)]/40\">
-              <div className=\"flex items-center gap-2\">
-                <Receipt className=\"w-4 h-4 text-[var(--ac)]\" />
-                <h3 className=\"text-sm sm:text-base font-semibold font-serif text-[var(--ink)]\">
+          <div className="p-4 sm:p-5 rounded-xl bg-[var(--sf-card)] border border-[var(--hl)]/40 shadow-xs">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--hl)]/40">
+              <div className="flex items-center gap-2">
+                <Receipt className="w-4 h-4 text-[var(--ac)]" />
+                <h3 className="text-sm sm:text-base font-semibold font-serif text-[var(--ink)]">
                   Prescriptions Ready for Billing
                 </h3>
               </div>
-              <span className=\"text-xs px-2 py-0.5 rounded-full bg-[var(--sage)]/70 text-[var(--ac)] font-bold\">
+              <span className="text-xs px-2 py-0.5 rounded-full bg-[var(--sage)]/70 text-[var(--ac)] font-bold">
                 {readyPrescriptions.length} pending
               </span>
             </div>
 
-            <div className=\"mt-3 divide-y divide-[var(--hl)]/30 max-h-56 overflow-y-auto\">
+            <div className="mt-3 divide-y divide-[var(--hl)]/30 max-h-56 overflow-y-auto">
               {readyPrescriptions.length === 0 ? (
-                <div className=\"p-6 text-center text-xs sm:text-sm text-[var(--s2)]\">
+                <div className="p-6 text-center text-xs sm:text-sm text-[var(--s2)]">
                   No completed prescriptions awaiting billing right now.
                 </div>
               ) : (
@@ -442,34 +442,34 @@ export default function ReceptionTab() {
                   return (
                     <div
                       key={rx.id}
-                      className=\"py-3 flex items-center justify-between gap-3 text-xs sm:text-sm\"
+                      className="py-3 flex items-center justify-between gap-3 text-xs sm:text-sm"
                     >
                       <div>
-                        <div className=\"flex items-center gap-1.5\">
-                          <span className=\"font-bold text-[var(--ink)]\">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-bold text-[var(--ink)]">
                             {patient?.name || 'Patient'}
                           </span>
-                          <span className=\"text-[11px] text-[var(--s2)]\">({rx.no})</span>
+                          <span className="text-[11px] text-[var(--s2)]">({rx.no})</span>
                         </div>
-                        <div className=\"text-[11px] text-[var(--s2)] mt-0.5\">
+                        <div className="text-[11px] text-[var(--s2)] mt-0.5">
                           {rx.items.length} items · {formatDateTime(rx.t)}
                         </div>
                       </div>
 
-                      <div className=\"flex items-center gap-1.5\">
+                      <div className="flex items-center gap-1.5">
                         <button
-                          type=\"button\"
+                          type="button"
                           onClick={() => triggerPrint('rx', rx.id)}
-                          className=\"px-2.5 py-1 text-xs rounded border border-[var(--hl)] bg-white text-[var(--s2)] hover:bg-[var(--sf)] flex items-center gap-1\"
-                          title=\"Print prescription copy\"
+                          className="px-2.5 py-1 text-xs rounded border border-[var(--hl)] bg-white text-[var(--s2)] hover:bg-[var(--sf)] flex items-center gap-1"
+                          title="Print prescription copy"
                         >
-                          <Printer className=\"w-3 h-3\" />
+                          <Printer className="w-3 h-3" />
                           <span>Print</span>
                         </button>
                         <button
-                          type=\"button\"
+                          type="button"
                           onClick={() => startBillingSession(rx.id, rx.pid)}
-                          className=\"px-3 py-1 text-xs rounded bg-[var(--ac)] text-white font-semibold hover:bg-[var(--ac-hover)] transition-colors shadow-xs\"
+                          className="px-3 py-1 text-xs rounded bg-[var(--ac)] text-white font-semibold hover:bg-[var(--ac-hover)] transition-colors shadow-xs"
                         >
                           Generate Invoice
                         </button>
@@ -482,12 +482,12 @@ export default function ReceptionTab() {
           </div>
 
           {/* Card B: Tabbed Appointments & Unpaid Balances */}
-          <div className=\"p-4 sm:p-5 rounded-xl bg-[var(--sf-card)] border border-[var(--hl)]/40 shadow-xs\">
+          <div className="p-4 sm:p-5 rounded-xl bg-[var(--sf-card)] border border-[var(--hl)]/40 shadow-xs">
             {/* Tab Selector Header */}
-            <div className=\"flex items-center justify-between pb-3 border-b border-[var(--hl)]/40\">
-              <div className=\"flex items-center gap-1 p-0.5 rounded-lg bg-[var(--sf)]/80 text-xs\">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--hl)]/40">
+              <div className="flex items-center gap-1 p-0.5 rounded-lg bg-[var(--sf)]/80 text-xs">
                 <button
-                  type=\"button\"
+                  type="button"
                   onClick={() => setRightSubTab('appointments')}
                   className={`px-3 py-1 rounded-md font-semibold transition-all ${
                     rightSubTab === 'appointments'
@@ -498,7 +498,7 @@ export default function ReceptionTab() {
                   Appointments ({todayAppointments.length})
                 </button>
                 <button
-                  type=\"button\"
+                  type="button"
                   onClick={() => setRightSubTab('unpaid')}
                   className={`px-3 py-1 rounded-md font-semibold transition-all ${
                     rightSubTab === 'unpaid'
@@ -512,12 +512,12 @@ export default function ReceptionTab() {
 
               {rightSubTab === 'appointments' && (
                 <button
-                  type=\"button\"
+                  type="button"
                   onClick={() => {
                     setAppointmentModalParams({});
                     setIsAppointmentModalOpen(true);
                   }}
-                  className=\"text-xs text-[var(--ac)] font-semibold hover:underline\"
+                  className="text-xs text-[var(--ac)] font-semibold hover:underline"
                 >
                   + Book New
                 </button>
@@ -526,44 +526,44 @@ export default function ReceptionTab() {
 
             {/* Sub-tab 1: Appointments & Follow-ups */}
             {rightSubTab === 'appointments' && (
-              <div className=\"mt-3 space-y-3 max-h-72 overflow-y-auto text-xs sm:text-sm\">
+              <div className="mt-3 space-y-3 max-h-72 overflow-y-auto text-xs sm:text-sm">
                 <div>
-                  <div className=\"text-[11px] font-bold uppercase tracking-wider text-[var(--s2)] mb-1.5\">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-[var(--s2)] mb-1.5">
                     Today's Schedule
                   </div>
                   {todayAppointments.length === 0 ? (
-                    <div className=\"text-xs text-[var(--s2)] italic py-1\">
+                    <div className="text-xs text-[var(--s2)] italic py-1">
                       No appointments booked for today.
                     </div>
                   ) : (
-                    <div className=\"divide-y divide-[var(--hl)]/50\">
+                    <div className="divide-y divide-[var(--hl)]/50">
                       {todayAppointments.map((apt) => {
                         const patient = getPatient(apt.pid);
                         return (
-                          <div key={apt.id} className=\"py-2 flex items-center justify-between gap-2\">
+                          <div key={apt.id} className="py-2 flex items-center justify-between gap-2">
                             <div>
-                              <span className=\"font-bold text-[var(--ac)]\">{apt.time}</span>
-                              <span className=\"ml-2 font-medium\">{patient?.name}</span>
+                              <span className="font-bold text-[var(--ac)]">{apt.time}</span>
+                              <span className="ml-2 font-medium">{patient?.name}</span>
                               {apt.note && (
-                                <span className=\"text-[var(--s2)] ml-1\">· {apt.note}</span>
+                                <span className="text-[var(--s2)] ml-1">· {apt.note}</span>
                               )}
                             </div>
-                            <div className=\"flex items-center gap-1.5\">
+                            <div className="flex items-center gap-1.5">
                               <button
-                                type=\"button\"
+                                type="button"
                                 onClick={() => updateAppointmentStatus(apt.id, 'arrived')}
-                                className=\"px-2 py-0.5 rounded bg-[var(--sage)] text-[var(--ac)] hover:bg-[var(--ac)] hover:text-white font-medium text-xs transition-colors flex items-center gap-1\"
+                                className="px-2 py-0.5 rounded bg-[var(--sage)] text-[var(--ac)] hover:bg-[var(--ac)] hover:text-white font-medium text-xs transition-colors flex items-center gap-1"
                               >
-                                <UserCheck className=\"w-3.5 h-3.5\" />
+                                <UserCheck className="w-3.5 h-3.5" />
                                 <span>Arrived</span>
                               </button>
                               <button
-                                type=\"button\"
+                                type="button"
                                 onClick={() => updateAppointmentStatus(apt.id, 'noshow')}
-                                className=\"p-1 rounded text-[var(--s2)] hover:text-[var(--err)]\"
-                                title=\"Mark no-show\"
+                                className="p-1 rounded text-[var(--s2)] hover:text-[var(--err)]"
+                                title="Mark no-show"
                               >
-                                <XCircle className=\"w-4 h-4\" />
+                                <XCircle className="w-4 h-4" />
                               </button>
                             </div>
                           </div>
@@ -574,31 +574,31 @@ export default function ReceptionTab() {
                 </div>
 
                 {dueFollowUps.length > 0 && (
-                  <div className=\"pt-2 border-t border-[var(--hl)]\">
-                    <div className=\"text-[11px] font-bold uppercase tracking-wider text-[var(--s2)] mb-1.5\">
+                  <div className="pt-2 border-t border-[var(--hl)]">
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-[var(--s2)] mb-1.5">
                       Follow-ups Due (Next 3 Days)
                     </div>
-                    <div className=\"divide-y divide-[var(--hl)]/50\">
+                    <div className="divide-y divide-[var(--hl)]/50">
                       {dueFollowUps.map((rx) => {
                         const patient = getPatient(rx.pid);
                         const isOverdue = rx.fu && rx.fu < today;
 
                         return (
-                          <div key={rx.id} className=\"py-1.5 flex items-center justify-between gap-2\">
+                          <div key={rx.id} className="py-1.5 flex items-center justify-between gap-2">
                             <div>
-                              <span className=\"font-medium\">{patient?.name}</span>
-                              <span className=\"text-xs text-[var(--s2)] ml-2\">
+                              <span className="font-medium">{patient?.name}</span>
+                              <span className="text-xs text-[var(--s2)] ml-2">
                                 Due {formatDate(rx.fu!)}
                               </span>
                               {isOverdue && (
-                                <span className=\"text-[10px] ml-1.5 px-1 rounded bg-[var(--err-bg)] text-[var(--err)] font-bold\">
+                                <span className="text-[10px] ml-1.5 px-1 rounded bg-[var(--err-bg)] text-[var(--err)] font-bold">
                                   Overdue
                                 </span>
                               )}
                             </div>
-                            <div className=\"flex items-center gap-1\">
+                            <div className="flex items-center gap-1">
                               <button
-                                type=\"button\"
+                                type="button"
                                 onClick={() => {
                                   setAppointmentModalParams({
                                     patientId: rx.pid,
@@ -607,14 +607,14 @@ export default function ReceptionTab() {
                                   });
                                   setIsAppointmentModalOpen(true);
                                 }}
-                                className=\"px-2 py-0.5 text-xs rounded bg-[var(--sf)] border border-[var(--hl)] text-[var(--ac)] font-medium hover:bg-[var(--sage)]\"
+                                className="px-2 py-0.5 text-xs rounded bg-[var(--sf)] border border-[var(--hl)] text-[var(--ac)] font-medium hover:bg-[var(--sage)]"
                               >
                                 Book
                               </button>
                               <button
-                                type=\"button\"
+                                type="button"
                                 onClick={() => dismissFollowUp(rx.id)}
-                                className=\"px-1.5 py-0.5 text-xs text-[var(--s2)] hover:text-[var(--err)]\"
+                                className="px-1.5 py-0.5 text-xs text-[var(--s2)] hover:text-[var(--err)]"
                               >
                                 Dismiss
                               </button>
@@ -630,9 +630,9 @@ export default function ReceptionTab() {
 
             {/* Sub-tab 2: Unpaid Balances List */}
             {rightSubTab === 'unpaid' && (
-              <div className=\"mt-3 divide-y divide-[var(--hl)]/50 max-h-72 overflow-y-auto text-xs sm:text-sm\">
+              <div className="mt-3 divide-y divide-[var(--hl)]/50 max-h-72 overflow-y-auto text-xs sm:text-sm">
                 {outstandingInvoices.length === 0 ? (
-                  <div className=\"p-6 text-center text-xs text-[var(--s2)]\">
+                  <div className="p-6 text-center text-xs text-[var(--s2)]">
                     Zero unpaid balances! All patient bills are settled.
                   </div>
                 ) : (
@@ -643,25 +643,25 @@ export default function ReceptionTab() {
                     return (
                       <div
                         key={inv.id}
-                        className=\"py-2.5 flex items-center justify-between gap-2\"
+                        className="py-2.5 flex items-center justify-between gap-2"
                       >
                         <div>
-                          <div className=\"font-semibold text-[var(--ink)]\">
+                          <div className="font-semibold text-[var(--ink)]">
                             {patient?.name || 'Patient'}
                           </div>
-                          <div className=\"text-[11px] text-[var(--s2)]\">
+                          <div className="text-[11px] text-[var(--s2)]">
                             {inv.id} · Total: {formatMoney(inv.total)} · Paid: {formatMoney(inv.paid)}
                           </div>
                         </div>
 
-                        <div className=\"flex items-center gap-3 shrink-0\">
-                          <span className=\"font-bold text-[var(--err)] text-xs sm:text-sm\">
+                        <div className="flex items-center gap-3 shrink-0">
+                          <span className="font-bold text-[var(--err)] text-xs sm:text-sm">
                             {formatMoney(balance)}
                           </span>
                           <button
-                            type=\"button\"
+                            type="button"
                             onClick={() => handleOpenSettle(inv.id)}
-                            className=\"px-2.5 py-1 text-xs rounded-md bg-[var(--ac)] text-white font-medium hover:bg-[var(--ac-hover)] transition-colors shadow-xs\"
+                            className="px-2.5 py-1 text-xs rounded-md bg-[var(--ac)] text-white font-medium hover:bg-[var(--ac-hover)] transition-colors shadow-xs"
                           >
                             Collect
                           </button>
@@ -678,91 +678,91 @@ export default function ReceptionTab() {
 
       {/* Register New Patient Modal - Spacious Real-Estate */}
       {isRegisterModalOpen && (
-        <div className=\"fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-[var(--ink)]/40 backdrop-blur-xs overflow-y-auto\">
-          <div className=\"w-full max-w-3xl bg-[var(--sf)] border border-[var(--hl)] rounded-2xl shadow-2xl p-6 sm:p-8 animate-in fade-in zoom-in-95 my-auto\">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-[var(--ink)]/40 backdrop-blur-xs overflow-y-auto">
+          <div className="w-full max-w-4xl bg-[var(--sf)] border border-[var(--hl)] rounded-2xl shadow-2xl p-6 sm:p-8 animate-in fade-in zoom-in-95 my-auto">
             {/* Header */}
-            <div className=\"flex items-center justify-between pb-4 border-b border-[var(--hl)]\">
-              <div className=\"flex items-center gap-3\">
-                <div className=\"p-2 rounded-xl bg-[var(--sage)]/70 text-[var(--ac)] border border-[var(--ac)]/20\">
-                  <UserPlus className=\"w-5 h-5\" />
+            <div className="flex items-center justify-between pb-4 border-b border-[var(--hl)]">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-[var(--sage)]/70 text-[var(--ac)] border border-[var(--ac)]/20">
+                  <UserPlus className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className=\"text-lg sm:text-xl font-bold font-serif text-[var(--ink)]\">
+                  <h3 className="text-lg sm:text-xl font-bold font-serif text-[var(--ink)]">
                     Register New Patient
                   </h3>
-                  <p className=\"text-xs text-[var(--s2)] mt-0.5\">
+                  <p className="text-xs text-[var(--s2)] mt-0.5">
                     Create permanent clinical health record & intake card
                   </p>
                 </div>
               </div>
               <button
-                type=\"button\"
+                type="button"
                 onClick={() => setIsRegisterModalOpen(false)}
-                className=\"p-1.5 rounded-lg text-[var(--s2)] hover:text-[var(--ink)] hover:bg-[var(--sf)] border border-transparent hover:border-[var(--hl)] transition-colors cursor-pointer\"
-                title=\"Close\"
+                className="p-1.5 rounded-lg text-[var(--s2)] hover:text-[var(--ink)] hover:bg-[var(--sf)] border border-transparent hover:border-[var(--hl)] transition-colors cursor-pointer"
+                title="Close"
               >
-                <X className=\"w-5 h-5\" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleRegisterPatient} className=\"mt-5 space-y-5 text-xs sm:text-sm\">
+            <form onSubmit={handleRegisterPatient} className="mt-5 space-y-5 text-xs sm:text-sm">
               {/* 2-Column Balanced Intake Form */}
-              <div className=\"grid grid-cols-1 md:grid-cols-2 gap-5\">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {/* Column 1: Demographics & Contact */}
-                <div className=\"p-4 rounded-xl bg-white border border-[var(--hl)]/50 shadow-xs space-y-3.5\">
-                  <div className=\"text-xs font-bold uppercase tracking-wider text-[var(--ink)] border-b border-[var(--hl)]/40 pb-2 flex items-center justify-between\">
+                <div className="p-4 rounded-xl bg-white border border-[var(--hl)]/50 shadow-xs space-y-3.5">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[var(--ink)] border-b border-[var(--hl)]/40 pb-2 flex items-center justify-between">
                     <span>1. Patient Demographics</span>
-                    <span className=\"text-[11px] text-[var(--ac)] font-semibold\">Identity</span>
+                    <span className="text-[11px] text-[var(--ac)] font-semibold">Identity</span>
                   </div>
 
                   <div>
-                    <label className=\"block font-semibold text-[var(--ink)] mb-1\">
+                    <label className="block font-semibold text-[var(--ink)] mb-1">
                       Full Name *
                     </label>
                     <input
-                      type=\"text\"
+                      type="text"
                       required
                       autoFocus
-                      placeholder=\"e.g. Radhika Namboodiri\"
+                      placeholder="e.g. Radhika Namboodiri"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className=\"w-full px-3.5 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all\"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all"
                     />
                   </div>
 
                   <div>
-                    <label className=\"block font-semibold text-[var(--ink)] mb-1\">
+                    <label className="block font-semibold text-[var(--ink)] mb-1">
                       Phone Number *
                     </label>
                     <input
-                      type=\"tel\"
+                      type="tel"
                       required
-                      placeholder=\"e.g. 9847012345\"
+                      placeholder="e.g. 9847012345"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className=\"w-full px-3.5 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all\"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all"
                     />
                   </div>
 
-                  <div className=\"grid grid-cols-2 gap-3 pt-1\">
+                  <div className="grid grid-cols-2 gap-3 pt-1">
                     <div>
-                      <label className=\"block font-semibold text-[var(--ink)] mb-1\">Age</label>
+                      <label className="block font-semibold text-[var(--ink)] mb-1">Age</label>
                       <input
-                        type=\"number\"
-                        min=\"0\"
-                        max=\"120\"
-                        placeholder=\"e.g. 38\"
+                        type="number"
+                        min="0"
+                        max="120"
+                        placeholder="e.g. 38"
                         value={age}
                         onChange={(e) => setAge(e.target.value)}
-                        className=\"w-full px-3.5 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all\"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all"
                       />
                     </div>
                     <div>
-                      <label className=\"block font-semibold text-[var(--ink)] mb-1\">Gender</label>
+                      <label className="block font-semibold text-[var(--ink)] mb-1">Gender</label>
                       <select
                         value={sex}
                         onChange={(e) => setSex(e.target.value)}
-                        className=\"w-full px-3.5 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all cursor-pointer\"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all cursor-pointer"
                       >
                         <option>Female</option>
                         <option>Male</option>
@@ -773,62 +773,62 @@ export default function ReceptionTab() {
                 </div>
 
                 {/* Column 2: Clinical Intake Profile */}
-                <div className=\"p-4 rounded-xl bg-white border border-[var(--hl)]/50 shadow-xs space-y-3.5\">
-                  <div className=\"text-xs font-bold uppercase tracking-wider text-[var(--ink)] border-b border-[var(--hl)]/40 pb-2 flex items-center justify-between\">
+                <div className="p-4 rounded-xl bg-white border border-[var(--hl)]/50 shadow-xs space-y-3.5">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[var(--ink)] border-b border-[var(--hl)]/40 pb-2 flex items-center justify-between">
                     <span>2. Clinical Background</span>
-                    <span className=\"text-[11px] text-[var(--err)] font-semibold\">Medical Safety</span>
+                    <span className="text-[11px] text-[var(--err)] font-semibold">Medical Safety</span>
                   </div>
 
                   <div>
-                    <label className=\"block font-semibold text-[var(--ink)] mb-1\">
+                    <label className="block font-semibold text-[var(--ink)] mb-1">
                       Known Drug & Food Allergies
                     </label>
                     <input
-                      type=\"text\"
-                      placeholder=\"e.g. Dust, Penicillin, Sesame, Sulfonamides\"
+                      type="text"
+                      placeholder="e.g. Dust, Penicillin, Sesame, Sulfonamides"
                       value={allergies}
                       onChange={(e) => setAllergies(e.target.value)}
-                      className=\"w-full px-3.5 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all\"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all"
                     />
-                    <p className=\"text-[11px] text-[var(--s2)] mt-1\">
+                    <p className="text-[11px] text-[var(--s2)] mt-1">
                       Flagged to doctors during prescription ordering
                     </p>
                   </div>
 
                   <div>
-                    <label className=\"block font-semibold text-[var(--ink)] mb-1\">
+                    <label className="block font-semibold text-[var(--ink)] mb-1">
                       Underlying Conditions / Primary Complaints
                     </label>
                     <textarea
                       rows={3}
-                      placeholder=\"e.g. Type-2 Diabetes, Hypertension, Lumbar spondylosis, Chronic migraines...\"
+                      placeholder="e.g. Type-2 Diabetes, Hypertension, Lumbar spondylosis, Chronic migraines..."
                       value={cond}
                       onChange={(e) => setCond(e.target.value)}
-                      className=\"w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all resize-none\"
+                      className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all resize-none"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Consultation Queue Immediate Check-In Tray */}
-              <div className=\"p-3.5 rounded-xl bg-white border border-[var(--hl)]/50 shadow-xs space-y-2.5\">
-                <label className=\"flex items-center gap-2.5 cursor-pointer font-semibold text-[var(--ink)]\">
+              <div className="p-3.5 rounded-xl bg-white border border-[var(--hl)]/50 shadow-xs space-y-2.5">
+                <label className="flex items-center gap-2.5 cursor-pointer font-semibold text-[var(--ink)]">
                   <input
-                    type=\"checkbox\"
+                    type="checkbox"
                     checked={autoCheckIn}
                     onChange={(e) => setAutoCheckIn(e.target.checked)}
-                    className=\"w-4 h-4 rounded text-[var(--ac)] focus:ring-[var(--ac)] cursor-pointer\"
+                    className="w-4 h-4 rounded text-[var(--ac)] focus:ring-[var(--ac)] cursor-pointer"
                   />
                   <span>Check in to doctor's consultation queue immediately</span>
                 </label>
 
                 {autoCheckIn && (
-                  <label className=\"flex items-center gap-2 cursor-pointer text-xs font-semibold text-[var(--err)] pl-6\">
+                  <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-[var(--err)] pl-6">
                     <input
-                      type=\"checkbox\"
+                      type="checkbox"
                       checked={isUrgentNewPatient}
                       onChange={(e) => setIsUrgentNewPatient(e.target.checked)}
-                      className=\"w-3.5 h-3.5 rounded text-[var(--err)] focus:ring-[var(--err)] cursor-pointer\"
+                      className="w-3.5 h-3.5 rounded text-[var(--err)] focus:ring-[var(--err)] cursor-pointer"
                     />
                     <span>Mark as High Priority (Emergency / Severe Acute Condition)</span>
                   </label>
@@ -836,17 +836,17 @@ export default function ReceptionTab() {
               </div>
 
               {/* Action Buttons */}
-              <div className=\"flex items-center justify-end gap-3 pt-2 border-t border-[var(--hl)]\">
+              <div className="flex items-center justify-end gap-3 pt-2 border-t border-[var(--hl)]">
                 <button
-                  type=\"button\"
+                  type="button"
                   onClick={() => setIsRegisterModalOpen(false)}
-                  className=\"px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-[var(--hl)] bg-white text-[var(--s2)] hover:bg-[var(--sf)] transition-colors cursor-pointer\"
+                  className="px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-[var(--hl)] bg-white text-[var(--s2)] hover:bg-[var(--sf)] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
-                  type=\"submit\"
-                  className=\"px-6 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-[var(--ac)] text-white hover:bg-[var(--ac-hover)] transition-colors shadow-sm cursor-pointer\"
+                  type="submit"
+                  className="px-6 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-[var(--ac)] text-white hover:bg-[var(--ac-hover)] transition-colors shadow-sm cursor-pointer"
                 >
                   Save & Confirm Patient
                 </button>
@@ -858,81 +858,81 @@ export default function ReceptionTab() {
 
       {/* Collect / Settle Payment Dialog */}
       {invoiceToSettle && (
-        <div className=\"fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--ink)]/40 backdrop-blur-xs\">
-          <div className=\"w-full max-w-lg bg-[var(--sf)] border border-[var(--hl)] rounded-2xl shadow-2xl p-6 sm:p-7 animate-in fade-in zoom-in-95 my-auto\">
-            <div className=\"flex items-center justify-between pb-3.5 border-b border-[var(--hl)]\">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--ink)]/40 backdrop-blur-xs">
+          <div className="w-full max-w-lg bg-[var(--sf)] border border-[var(--hl)] rounded-2xl shadow-2xl p-6 sm:p-7 animate-in fade-in zoom-in-95 my-auto">
+            <div className="flex items-center justify-between pb-3.5 border-b border-[var(--hl)]">
               <div>
-                <h4 className=\"font-bold text-base font-serif text-[var(--ink)]\">
+                <h4 className="font-bold text-base font-serif text-[var(--ink)]">
                   Record Balance Payment
                 </h4>
-                <p className=\"text-xs text-[var(--s2)] mt-0.5\">
+                <p className="text-xs text-[var(--s2)] mt-0.5">
                   Invoice #{invoiceToSettle.id} · {getPatient(invoiceToSettle.pid)?.name}
                 </p>
               </div>
               <button
-                type=\"button\"
+                type="button"
                 onClick={() => setSettleInvoiceId(null)}
-                className=\"p-1.5 rounded-lg text-[var(--s2)] hover:text-[var(--ink)] hover:bg-[var(--sf)] border border-transparent hover:border-[var(--hl)] transition-colors cursor-pointer\"
+                className="p-1.5 rounded-lg text-[var(--s2)] hover:text-[var(--ink)] hover:bg-[var(--sf)] border border-transparent hover:border-[var(--hl)] transition-colors cursor-pointer"
               >
-                <X className=\"w-4 h-4\" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Financial Summary Glance */}
-            <div className=\"my-4 p-3.5 rounded-xl bg-white border border-[var(--hl)]/50 shadow-xs flex justify-between text-xs\">
+            <div className="my-4 p-3.5 rounded-xl bg-white border border-[var(--hl)]/50 shadow-xs flex justify-between text-xs">
               <div>
-                <span className=\"text-[var(--s2)]\">Invoice Total:</span>
-                <div className=\"font-bold text-sm text-[var(--ink)]\">{formatMoney(invoiceToSettle.total)}</div>
+                <span className="text-[var(--s2)]">Invoice Total:</span>
+                <div className="font-bold text-sm text-[var(--ink)]">{formatMoney(invoiceToSettle.total)}</div>
               </div>
               <div>
-                <span className=\"text-[var(--s2)]\">Already Paid:</span>
-                <div className=\"font-bold text-sm text-[var(--ac)]\">{formatMoney(invoiceToSettle.paid)}</div>
+                <span className="text-[var(--s2)]">Already Paid:</span>
+                <div className="font-bold text-sm text-[var(--ac)]">{formatMoney(invoiceToSettle.paid)}</div>
               </div>
               <div>
-                <span className=\"text-[var(--s2)]\">Outstanding Due:</span>
-                <div className=\"font-bold text-sm text-[var(--err)]\">
+                <span className="text-[var(--s2)]">Outstanding Due:</span>
+                <div className="font-bold text-sm text-[var(--err)]">
                   {formatMoney(invoiceToSettle.total - invoiceToSettle.paid)}
                 </div>
               </div>
             </div>
 
-            <form onSubmit={handleConfirmSettle} className=\"space-y-4 text-xs sm:text-sm\">
+            <form onSubmit={handleConfirmSettle} className="space-y-4 text-xs sm:text-sm">
               <div>
-                <div className=\"flex items-center justify-between mb-1.5\">
-                  <label className=\"font-semibold text-[var(--ink)]\">
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="font-semibold text-[var(--ink)]">
                     Payment Amount to Settle (₹) *
                   </label>
                   <button
-                    type=\"button\"
+                    type="button"
                     onClick={() => setSettleAmount((invoiceToSettle.total - invoiceToSettle.paid).toString())}
-                    className=\"text-xs text-[var(--ac)] font-bold hover:underline cursor-pointer\"
+                    className="text-xs text-[var(--ac)] font-bold hover:underline cursor-pointer"
                   >
                     Pay Full: {formatMoney(invoiceToSettle.total - invoiceToSettle.paid)}
                   </button>
                 </div>
-                <div className=\"relative\">
-                  <span className=\"absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--s2)]/70 font-semibold text-sm\">₹</span>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--s2)]/70 font-semibold text-sm">₹</span>
                   <input
-                    type=\"number\"
-                    min=\"1\"
+                    type="number"
+                    min="1"
                     max={invoiceToSettle.total - invoiceToSettle.paid}
                     value={settleAmount}
                     onChange={(e) => setSettleAmount(e.target.value)}
                     required
-                    className=\"w-full pl-8 pr-4 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] font-bold text-lg shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all\"
+                    className="w-full pl-8 pr-4 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] font-bold text-lg shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all"
                   />
                 </div>
               </div>
 
-              <div className=\"grid grid-cols-2 gap-3\">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className=\"block font-semibold text-[var(--ink)] mb-1\">
+                  <label className="block font-semibold text-[var(--ink)] mb-1">
                     Payment Method
                   </label>
                   <select
                     value={settleMethod}
                     onChange={(e) => setSettleMethod(e.target.value)}
-                    className=\"w-full px-3.5 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all cursor-pointer\"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all cursor-pointer"
                   >
                     <option>Cash</option>
                     <option>UPI</option>
@@ -941,30 +941,30 @@ export default function ReceptionTab() {
                 </div>
 
                 <div>
-                  <label className=\"block font-semibold text-[var(--ink)] mb-1\">
+                  <label className="block font-semibold text-[var(--ink)] mb-1">
                     Transaction Reference
                   </label>
                   <input
-                    type=\"text\"
-                    placeholder=\"e.g. UPI Ref / Txn #\"
+                    type="text"
+                    placeholder="e.g. UPI Ref / Txn #"
                     value={settleRef}
                     onChange={(e) => setSettleRef(e.target.value)}
-                    className=\"w-full px-3.5 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all\"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--hl)] bg-white text-[var(--ink)] placeholder:text-[var(--s2)]/60 shadow-xs focus:outline-none focus:ring-2 focus:ring-[var(--ac)]/40 focus:border-[var(--ac)] transition-all"
                   />
                 </div>
               </div>
 
-              <div className=\"flex items-center justify-end gap-3 pt-3.5 border-t border-[var(--hl)]\">
+              <div className="flex items-center justify-end gap-3 pt-3.5 border-t border-[var(--hl)]">
                 <button
-                  type=\"button\"
+                  type="button"
                   onClick={() => setSettleInvoiceId(null)}
-                  className=\"px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-[var(--hl)] bg-white text-[var(--s2)] hover:bg-[var(--sf)] transition-colors cursor-pointer\"
+                  className="px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl border border-[var(--hl)] bg-white text-[var(--s2)] hover:bg-[var(--sf)] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
-                  type=\"submit\"
-                  className=\"px-6 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-[var(--ac)] text-white hover:bg-[var(--ac-hover)] transition-colors shadow-sm cursor-pointer\"
+                  type="submit"
+                  className="px-6 py-2.5 text-xs sm:text-sm font-semibold rounded-xl bg-[var(--ac)] text-white hover:bg-[var(--ac-hover)] transition-colors shadow-sm cursor-pointer"
                 >
                   Confirm & Settle Balance
                 </button>
@@ -987,10 +987,10 @@ export default function ReceptionTab() {
       <PromptModal
         isOpen={cancelVisitId !== null}
         onClose={() => setCancelVisitId(null)}
-        title=\"Cancel Patient Check-in\"
-        description=\"Provide a brief clinical or administrative reason. The cancelled check-in will be saved in the activity history.\"
-        placeholder=\"e.g. Patient had an emergency, left before consultation\"
-        confirmLabel=\"Cancel Check-in\"
+        title="Cancel Patient Check-in"
+        description="Provide a brief clinical or administrative reason. The cancelled check-in will be saved in the activity history."
+        placeholder="e.g. Patient had an emergency, left before consultation"
+        confirmLabel="Cancel Check-in"
         onConfirm={(reason) => {
           if (cancelVisitId) {
             cancelVisit(cancelVisitId, reason);
