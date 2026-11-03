@@ -31,6 +31,22 @@ import {
   getAvailableStock,
   checkAllergyMatch,
 } from '@/lib/utils';
+import { testSupabaseConnection, supabase } from '@/lib/supabase';
+import {
+  fetchCloudClinicState,
+  seedSupabaseInitialData,
+  syncPatientToCloud,
+  syncVisitToCloud,
+  syncPrescriptionToCloud,
+  syncInvoiceToCloud,
+  syncPaymentToCloud,
+  syncInventoryItemToCloud,
+  syncAppointmentToCloud,
+  syncTreatmentPackageToCloud,
+  syncClinicConfigToCloud,
+  syncPrescriptionTemplateToCloud,
+  syncActivityLogToCloud,
+} from '@/lib/supabaseSync';
 
 export interface DraftConsultation {
   vid: string;
@@ -58,6 +74,8 @@ interface ClinicContextType {
   currentUser: User | null;
   currentTab: TabKey;
   setCurrentTab: (tab: TabKey) => void;
+  syncStatus: 'connected' | 'syncing' | 'offline' | 'pending-schema';
+  retrySync: () => Promise<void>;
   login: (userId: string, pin: string) => { success: boolean; error?: string };
   logout: () => void;
   toast: { message: string; isError?: boolean } | null;
@@ -136,8 +154,40 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
   const [printData, setPrintData] = useState<{ type: 'rx' | 'inv'; id: string } | null>(null);
   const [loginAttempts, setLoginAttempts] = useState<number>(0);
   const [lockoutUntil, setLockoutUntil] = useState<number>(0);
+  const [syncStatus, setSyncStatus] = useState<'connected' | 'syncing' | 'offline' | 'pending-schema'>('syncing');
 
-  // Initialize from LocalStorage
+  // Supabase Cloud Synchronizer
+  const performCloudSync = useCallback(async () => {
+    try {
+      setSyncStatus('syncing');
+      const conn = await testSupabaseConnection();
+      if (!conn.connected) {
+        setSyncStatus('offline');
+        return;
+      }
+      if (!conn.hasTables) {
+        setSyncStatus('pending-schema');
+        return;
+      }
+      const remote = await fetchCloudClinicState();
+      if (remote && remote.inv && remote.inv.length > 0) {
+        setState(remote);
+        saveClinicState(remote);
+        setSyncStatus('connected');
+      } else if (remote && remote.inv && remote.inv.length === 0) {
+        const currentData = loadClinicState();
+        await seedSupabaseInitialData(currentData);
+        setSyncStatus('connected');
+      } else {
+        setSyncStatus('connected');
+      }
+    } catch (err) {
+      console.warn('[Supabase Sync Error]:', err);
+      setSyncStatus('offline');
+    }
+  }, []);
+
+  // Initialize from LocalStorage and Cloud
   useEffect(() => {
     const loaded = loadClinicState();
     setState(loaded);
@@ -152,7 +202,23 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
         }
       }
     }
-  }, []);
+
+    // Connect to Supabase
+    performCloudSync();
+
+    // Subscribe to realtime changes for cross-terminal synchrony
+    const channel = supabase
+      .channel('clinic_realtime_changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'visits' }, () => performCloudSync())
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'prescriptions' }, () => performCloudSync())
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'invoices' }, () => performCloudSync())
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'inventory_items' }, () => performCloudSync())
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [performCloudSync]);
 
   // Save state on changes
   const updateState = useCallback((updater: (prev: ClinicState) => ClinicState) => {
@@ -174,18 +240,18 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
 
   const addLog = useCallback(
     (type: ActivityLog['type'], msg: string, pid?: string | null) => {
+      const newLogItem: ActivityLog = {
+        t: Date.now(),
+        pid,
+        type,
+        msg,
+        by: currentUser?.name || 'System',
+      };
       updateState((prev) => ({
         ...prev,
-        log: [
-          {\n            t: Date.now(),
-            pid,
-            type,
-            msg,
-            by: currentUser?.name || 'System',
-          },
-          ...prev.log,
-        ],
+        log: [newLogItem, ...prev.log],
       }));
+      syncActivityLogToCloud(newLogItem);
     },
     [currentUser, updateState]
   );
@@ -242,15 +308,18 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
       ...prev,
       pts: [...prev.pts, newPt],
     }));
+    syncPatientToCloud(newPt);
     addLog('registration', `Patient ${newPt.name} registered`, id);
     return newPt;
   };
 
   const updatePatient = (id: string, data: Partial<Patient>) => {
-    updateState((prev) => ({
-      ...prev,
-      pts: prev.pts.map((p) => (p.id === id ? { ...p, ...data } : p)),
-    }));
+    updateState((prev) => {
+      const updatedPts = prev.pts.map((p) => (p.id === id ? { ...p, ...data } : p));
+      const target = updatedPts.find((p) => p.id === id);
+      if (target) syncPatientToCloud(target);
+      return { ...prev, pts: updatedPts };
+    });
     addLog('registration', `Patient details updated for ${data.name || id}`, id);
     showToast('Patient profile updated');
   };
@@ -280,15 +349,18 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
       ...prev,
       vis: [...prev.vis, newVisit],
     }));
+    syncVisitToCloud(newVisit);
     addLog('check-in', `${patient.name} checked in (Token #${token}${isUrgent ? ', Urgent' : ''})`, patientId);
     showToast(`${patient.name} checked in (Token #${token})`);
   };
 
   const toggleVisitUrgent = (visitId: string) => {
-    updateState((prev) => ({
-      ...prev,
-      vis: prev.vis.map((v) => (v.id === visitId ? { ...v, urg: !v.urg } : v)),
-    }));
+    updateState((prev) => {
+      const updatedVis = prev.vis.map((v) => (v.id === visitId ? { ...v, urg: !v.urg } : v));
+      const target = updatedVis.find((x) => x.id === visitId);
+      if (target) syncVisitToCloud(target);
+      return { ...prev, vis: updatedVis };
+    });
     const v = state.vis.find((x) => x.id === visitId);
     if (v) {
       addLog('check-in', `Priority toggled for visit #${v.tk}`, v.pid);
@@ -298,12 +370,14 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
   const cancelVisit = (visitId: string, reason: string) => {
     const v = state.vis.find((x) => x.id === visitId);
     if (!v) return;
+    const updatedVisit: Visit = { ...v, st: 'done', cancelled: true, reason };
     updateState((prev) => ({
       ...prev,
       vis: prev.vis.map((x) =>
-        x.id === visitId ? { ...x, st: 'done', cancelled: true, reason } : x
+        x.id === visitId ? updatedVisit : x
       ),
     }));
+    syncVisitToCloud(updatedVisit);
     addLog('check-in', `Check-in cancelled: ${reason}`, v.pid);
     showToast('Visit cancelled');
   };
@@ -411,6 +485,7 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
       ...prev,
       tp: [...prev.tp, template],
     }));
+    syncPrescriptionTemplateToCloud(template);
     addLog('settings', `Prescription template "${name}" created`);
     showToast(`Template "${name}" saved`);
   };
@@ -467,6 +542,12 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
       rx: [...prev.rx, newRx],
       vis: prev.vis.map((v) => (v.id === vid ? { ...v, st: 'done' } : v)),
     }));
+
+    syncPrescriptionToCloud(newRx);
+    const targetVisit = state.vis.find((v) => v.id === vid);
+    if (targetVisit) {
+      syncVisitToCloud({ ...targetVisit, st: 'done' });
+    }
 
     addLog('prescription', `Prescription ${rxNo} created (${newRx.items.length} items)`, pid);
     addLog('consultation', `Consultation finished for ${patient?.name || pid}`, pid);
@@ -667,6 +748,11 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
       pk: [...prev.pk, ...newPackages],
     }));
 
+    syncInvoiceToCloud(newInvoice);
+    newPayments.forEach((p) => syncPaymentToCloud(p));
+    newPackages.forEach((k) => syncTreatmentPackageToCloud(k));
+    updatedInventory.forEach((item) => syncInventoryItemToCloud(item));
+
     setActiveBill(null);
     showToast(`Invoice ${invNo} finalized! Total: ${formatMoney(calc.t)}`);
     return true;
@@ -700,6 +786,9 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
       invs: prev.invs.map((i) => (i.id === invoiceId ? { ...i, paid: i.paid + amount } : i)),
       pays: [...prev.pays, newPayment],
     }));
+
+    syncPaymentToCloud(newPayment);
+    syncInvoiceToCloud({ ...inv, paid: inv.paid + amount });
 
     addLog('payment', `${formatMoney(amount)} by ${method} received for ${invoiceId}`, inv.pid);
     showToast(`Payment of ${formatMoney(amount)} recorded.`);
@@ -754,6 +843,17 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
       pk: prev.pk.map((k) => (k.inv === invoiceId ? { ...k, void: true } : k)),
     }));
 
+    syncInvoiceToCloud({
+      ...inv,
+      void: {
+        t: Date.now(),
+        by: currentUser?.name || 'Doctor',
+        reason,
+      },
+    });
+    newPayments.forEach((p) => syncPaymentToCloud(p));
+    updatedInventory.forEach((item) => syncInventoryItemToCloud(item));
+
     addLog('invoice', `Invoice ${invoiceId} voided: ${reason}`, inv.pid);
     showToast(`Invoice ${invoiceId} voided and stock restored.`);
   };
@@ -765,9 +865,12 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
     updateState((prev) => {
       if (data.id) {
         // Edit
+        const updatedList = prev.inv.map((i) => (i.id === data.id ? { ...i, ...data } : i));
+        const updatedItem = updatedList.find((i) => i.id === data.id);
+        if (updatedItem) syncInventoryItemToCloud(updatedItem);
         return {
           ...prev,
-          inv: prev.inv.map((i) => (i.id === data.id ? { ...i, ...data } : i)),
+          inv: updatedList,
         };
       }
       // New
@@ -782,6 +885,7 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
         sess: data.sess || 1,
         batches: [],
       };
+      syncInventoryItemToCloud(newItem);
       return {
         ...prev,
         inv: [...prev.inv, newItem],
@@ -813,6 +917,7 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
         });
         const updatedItem = { ...i, batches };
         syncStock(updatedItem);
+        syncInventoryItemToCloud(updatedItem);
         return updatedItem;
       });
       return { ...prev, inv: updated };
@@ -841,6 +946,7 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
         });
         const updatedItem = { ...i, batches };
         syncStock(updatedItem);
+        syncInventoryItemToCloud(updatedItem);
         return updatedItem;
       });
       return { ...prev, inv: updated };
@@ -854,10 +960,12 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
   };
 
   const toggleFavoriteItem = (itemId: string) => {
-    updateState((prev) => ({
-      ...prev,
-      inv: prev.inv.map((i) => (i.id === itemId ? { ...i, fav: !i.fav } : i)),
-    }));
+    updateState((prev) => {
+      const updated = prev.inv.map((i) => (i.id === itemId ? { ...i, fav: !i.fav } : i));
+      const target = updated.find((i) => i.id === itemId);
+      if (target) syncInventoryItemToCloud(target);
+      return { ...prev, inv: updated };
+    });
   };
 
   const recordTreatmentSession = (packageId: string) => {
@@ -866,10 +974,12 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
       showToast('All sessions for this package have already been completed.', true);
       return;
     }
+    const updatedPkg = { ...pkg, used: pkg.used + 1 };
     updateState((prev) => ({
       ...prev,
-      pk: prev.pk.map((k) => (k.id === packageId ? { ...k, used: k.used + 1 } : k)),
+      pk: prev.pk.map((k) => (k.id === packageId ? updatedPkg : k)),
     }));
+    syncTreatmentPackageToCloud(updatedPkg);
     addLog('treatment', `Session ${pkg.used + 1} of ${pkg.total} recorded: ${pkg.name}`, pkg.pid);
     showToast(`Session ${pkg.used + 1} of ${pkg.total} recorded.`);
   };
@@ -904,6 +1014,8 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
       };
     });
 
+    syncAppointmentToCloud(newAppointment);
+
     const patient = getPatient(patientId);
     addLog('appointment', `Appointment booked for ${date} at ${time}`, patientId);
     showToast(`Appointment booked for ${patient?.name || 'patient'}`);
@@ -925,10 +1037,13 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
       checkInPatient(apt.pid);
     }
 
+    const updatedApt = { ...apt, st: status };
     updateState((prev) => ({
       ...prev,
-      ap: prev.ap.map((a) => (a.id === appointmentId ? { ...a, st: status } : a)),
+      ap: prev.ap.map((a) => (a.id === appointmentId ? updatedApt : a)),
     }));
+
+    syncAppointmentToCloud(updatedApt);
 
     addLog('appointment', `Appointment status changed to "${status}"`, apt.pid);
     showToast(`Appointment marked as ${status}`);
@@ -945,6 +1060,7 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
   // Clinic Config & Staff
   const saveClinicConfig = (config: ClinicState['cfg']) => {
     updateState((prev) => ({ ...prev, cfg: config }));
+    syncClinicConfigToCloud(config);
     addLog('settings', 'Clinic configuration updated');
     showToast('Clinic details saved');
   };
@@ -1027,6 +1143,8 @@ export function ClinicProvider({ children }: { children: ReactNode }) {
         currentUser,
         currentTab,
         setCurrentTab,
+        syncStatus,
+        retrySync: performCloudSync,
         login,
         logout,
         toast,
